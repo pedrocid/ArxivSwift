@@ -7,7 +7,7 @@ struct ArxivSwiftTests {
     @Test("Library imports and basic functionality")
     func libraryImportsAndBasicFunctionality() async throws {
         // Test that we can create basic objects from the library
-        let client = ArxivClient()
+        _ = ArxivClient()
         let query = ArxivQuery()
         
         // Verify basic query building works
