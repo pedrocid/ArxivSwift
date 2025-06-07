@@ -1,9 +1,11 @@
-import XCTest
+import Testing
 @testable import ArxivSwift
 
-final class XMLParserTests: XCTestCase {
+@Suite("XMLParser Tests")
+struct XMLParserTests {
     
-    func testXMLParserWithSampleData() throws {
+    @Test("XML parser with sample data")
+    func xmlParserWithSampleData() throws {
         let sampleXML = """
         <?xml version="1.0" encoding="UTF-8"?>
         <feed xmlns="http://www.w3.org/2005/Atom">
@@ -38,28 +40,29 @@ final class XMLParserTests: XCTestCase {
         </feed>
         """
         
-        let data = sampleXML.data(using: .utf8)!
+        let data = try #require(sampleXML.data(using: .utf8))
         let parser = ArxivXMLParserDelegate()
         
         let entries = try parser.parseEntries(from: data)
         
-        XCTAssertEqual(entries.count, 1)
+        #expect(entries.count == 1)
         
         let entry = entries[0]
-        XCTAssertEqual(entry.id, "hep-ex/0307015v1")
-        XCTAssertEqual(entry.title, "Multi-Electron Production at High Transverse Momenta in ep Collisions at HERA")
-        XCTAssertTrue(entry.abstract.contains("Multi-electron production is studied"))
-        XCTAssertEqual(entry.authors.count, 1)
-        XCTAssertEqual(entry.authors[0].name, "H1 Collaboration")
-        XCTAssertEqual(entry.doi, "10.1140/epjc/s2003-01326-x")
-        XCTAssertEqual(entry.categories.count, 2)
-        XCTAssertEqual(entry.categories[0].term, "hep-ex")
-        XCTAssertEqual(entry.categories[1].term, "hep-ph")
-        XCTAssertEqual(entry.primaryCategory?.term, "hep-ex")
-        XCTAssertEqual(entry.links.count, 2)
+        #expect(entry.id == "hep-ex/0307015v1")
+        #expect(entry.title == "Multi-Electron Production at High Transverse Momenta in ep Collisions at HERA")
+        #expect(entry.abstract.contains("Multi-electron production is studied"))
+        #expect(entry.authors.count == 1)
+        #expect(entry.authors[0].name == "H1 Collaboration")
+        #expect(entry.doi == "10.1140/epjc/s2003-01326-x")
+        #expect(entry.categories.count == 2)
+        #expect(entry.categories[0].term == "hep-ex")
+        #expect(entry.categories[1].term == "hep-ph")
+        #expect(entry.primaryCategory?.term == "hep-ex")
+        #expect(entry.links.count == 2)
     }
     
-    func testXMLParserWithMultipleEntries() throws {
+    @Test("XML parser with multiple entries")
+    func xmlParserWithMultipleEntries() throws {
         let sampleXML = """
         <?xml version="1.0" encoding="UTF-8"?>
         <feed xmlns="http://www.w3.org/2005/Atom">
@@ -91,43 +94,53 @@ final class XMLParserTests: XCTestCase {
         </feed>
         """
         
-        let data = sampleXML.data(using: .utf8)!
+        let data = try #require(sampleXML.data(using: .utf8))
         let parser = ArxivXMLParserDelegate()
         
         let entries = try parser.parseEntries(from: data)
         
-        XCTAssertEqual(entries.count, 2)
+        #expect(entries.count == 2)
         
         let firstEntry = entries[0]
-        XCTAssertEqual(firstEntry.id, "2301.12345v1")
-        XCTAssertEqual(firstEntry.title, "First Paper Title")
-        XCTAssertEqual(firstEntry.authors.count, 2)
-        XCTAssertEqual(firstEntry.authors[0].name, "John Doe")
-        XCTAssertEqual(firstEntry.authors[1].name, "Jane Smith")
+        #expect(firstEntry.id == "2301.12345v1")
+        #expect(firstEntry.title == "First Paper Title")
+        #expect(firstEntry.authors.count == 2)
+        #expect(firstEntry.authors[0].name == "John Doe")
+        #expect(firstEntry.authors[1].name == "Jane Smith")
         
         let secondEntry = entries[1]
-        XCTAssertEqual(secondEntry.id, "2301.54321v1")
-        XCTAssertEqual(secondEntry.title, "Second Paper Title")
-        XCTAssertEqual(secondEntry.authors.count, 1)
-        XCTAssertEqual(secondEntry.authors[0].name, "Alice Johnson")
+        #expect(secondEntry.id == "2301.54321v1")
+        #expect(secondEntry.title == "Second Paper Title")
+        #expect(secondEntry.authors.count == 1)
+        #expect(secondEntry.authors[0].name == "Alice Johnson")
     }
     
-    func testXMLParserWithInvalidData() {
+    @Test("XML parser with invalid data")
+    func xmlParserWithInvalidData() {
         let invalidXML = "This is not valid XML"
         let data = invalidXML.data(using: .utf8)!
         let parser = ArxivXMLParserDelegate()
         
-        XCTAssertThrowsError(try parser.parseEntries(from: data)) { error in
-            XCTAssertTrue(error is ArxivError)
+        #expect(throws: (any Error).self) {
+            try parser.parseEntries(from: data)
+        }
+        
+        // More specific error checking
+        do {
+            _ = try parser.parseEntries(from: data)
+            Issue.record("Expected parsing to throw an error")
+        } catch {
+            #expect(error is ArxivError)
             if case .parsingError = error as! ArxivError {
                 // Expected error type
             } else {
-                XCTFail("Expected parsing error")
+                Issue.record("Expected parsing error, got \(error)")
             }
         }
     }
     
-    func testDateParsing() throws {
+    @Test("Date parsing")
+    func dateParsing() throws {
         let sampleXML = """
         <?xml version="1.0" encoding="UTF-8"?>
         <feed xmlns="http://www.w3.org/2005/Atom">
@@ -145,12 +158,12 @@ final class XMLParserTests: XCTestCase {
         </feed>
         """
         
-        let data = sampleXML.data(using: .utf8)!
+        let data = try #require(sampleXML.data(using: .utf8))
         let parser = ArxivXMLParserDelegate()
         
         let entries = try parser.parseEntries(from: data)
         
-        XCTAssertEqual(entries.count, 1)
+        #expect(entries.count == 1)
         
         let entry = entries[0]
         
@@ -158,9 +171,9 @@ final class XMLParserTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        let expectedDate = dateFormatter.date(from: "2023-01-29T18:59:59Z")!
+        let expectedDate = try #require(dateFormatter.date(from: "2023-01-29T18:59:59Z"))
         
-        XCTAssertEqual(entry.published, expectedDate)
-        XCTAssertEqual(entry.updated, expectedDate)
+        #expect(entry.published == expectedDate)
+        #expect(entry.updated == expectedDate)
     }
 } 
