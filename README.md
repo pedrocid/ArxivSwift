@@ -1,3 +1,5 @@
+![ArxivSwift Header](assets/header-image.png)
+
 # ArxivSwift
 
 A modern Swift API client for arXiv.org with async/await support.
