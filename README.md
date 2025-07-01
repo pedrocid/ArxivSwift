@@ -222,14 +222,15 @@ A builder for constructing arXiv API queries.
 
 ## Examples
 
-Check out the test files for more comprehensive examples:
+For comprehensive examples and advanced usage patterns, see:
+- [Examples Documentation](docs/Examples.md) - Comprehensive examples and real-world use cases
 - `Tests/ArxivSwiftTests/ArxivClientTests.swift` - Integration tests with real API calls
 - `Tests/ArxivSwiftTests/ArxivQueryTests.swift` - Query builder examples
 - `Tests/ArxivSwiftTests/XMLParserTests.swift` - XML parsing examples
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on how to contribute to this project.
 
 ## License
 
