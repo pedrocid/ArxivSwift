@@ -1,32 +1,106 @@
 import Foundation
 
-/// Enum for sorting results from the arXiv API
+/// Defines how results should be sorted when returned from the arXiv API.
+///
+/// Use this enum to specify the sorting criteria for your search results.
+/// The default sorting method is by relevance.
+///
+/// Example:
+/// ```swift
+/// let query = ArxivQuery()
+///     .sort(by: .submittedDate, order: .descending)
+/// ```
 public enum SortBy: String, CaseIterable {
+    /// Sort by relevance to the search query (default)
     case relevance = "relevance"
+    /// Sort by the date the paper was last updated
     case lastUpdatedDate = "lastUpdatedDate"
+    /// Sort by the date the paper was originally submitted
     case submittedDate = "submittedDate"
 }
 
-/// Enum for sort order
+/// Defines the order in which sorted results should be returned.
+///
+/// Use this enum in conjunction with `SortBy` to control result ordering.
+///
+/// Example:
+/// ```swift
+/// let query = ArxivQuery()
+///     .sort(by: .submittedDate, order: .ascending) // Oldest first
+/// ```
 public enum SortOrder: String, CaseIterable {
+    /// Sort in ascending order (oldest first for dates, lowest relevance first)
     case ascending = "ascending"
+    /// Sort in descending order (newest first for dates, highest relevance first)
     case descending = "descending"
 }
 
-/// Enum for query fields that can be searched
+/// Defines the searchable fields in arXiv papers.
+///
+/// Each field corresponds to a specific part of an arXiv entry that can be searched.
+/// Use these fields to create targeted searches.
+///
+/// Example:
+/// ```swift
+/// let query = ArxivQuery()
+///     .addSearch(field: .title, value: "neural networks")
+///     .addSearch(field: .category, value: "cs.AI")
+/// ```
 public enum QueryField: String, CaseIterable {
+    /// Search in paper titles
     case title = "ti"
+    /// Search in author names
     case author = "au"
+    /// Search in paper abstracts
     case abstract = "abs"
+    /// Search in author comments
     case comment = "co"
+    /// Search in journal references
     case journalReference = "jr"
+    /// Search in subject categories
     case category = "cat"
+    /// Search in report numbers
     case reportNumber = "rn"
+    /// Search by arXiv ID
     case id = "id"
+    /// Search across all fields
     case all = "all"
 }
 
-/// A builder for constructing arXiv API queries
+/// A builder for constructing arXiv API queries using a fluent interface.
+///
+/// `ArxivQuery` provides a type-safe, chainable API for building complex queries
+/// to search the arXiv database. It supports searching across multiple fields,
+/// pagination, and various sorting options.
+///
+/// ## Basic Usage
+///
+/// ```swift
+/// // Simple search
+/// let query = ArxivQuery()
+///     .addSearch(field: .title, value: "machine learning")
+///     .maxResults(20)
+///
+/// // Complex search with multiple criteria
+/// let complexQuery = ArxivQuery()
+///     .addSearch(field: .category, value: "cs.AI")
+///     .addSearch(field: .author, value: "Hinton")
+///     .sort(by: .submittedDate, order: .descending)
+///     .maxResults(50)
+///     .start(10) // For pagination
+/// ```
+///
+/// ## Convenience Methods
+///
+/// For common searches, use the static convenience methods:
+///
+/// ```swift
+/// let authorQuery = ArxivQuery.byAuthor("Geoffrey Hinton")
+/// let categoryQuery = ArxivQuery.byCategory("cs.CV")
+/// ```
+///
+/// All methods return a new `ArxivQuery` instance, allowing for method chaining
+/// while maintaining immutability.
 public struct ArxivQuery {
     private var searchTerms: [String] = []
     private var start: Int = 0
