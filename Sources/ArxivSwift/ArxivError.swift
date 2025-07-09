@@ -1,4 +1,7 @@
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 /// Errors that can occur when using the ArxivSwift library
 public enum ArxivError: Error, LocalizedError, Equatable {

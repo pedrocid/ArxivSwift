@@ -1,4 +1,7 @@
 import Foundation
+#if os(Linux)
+import FoundationXML
+#endif
 
 /// XML parser delegate for parsing arXiv Atom feed responses
 internal class ArxivXMLParserDelegate: NSObject, XMLParserDelegate {
