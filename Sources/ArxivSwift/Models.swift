@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents an author of an arXiv paper
-public struct ArxivAuthor: Codable, Equatable {
+public struct ArxivAuthor: Codable, Equatable, Sendable {
     /// The author's name
     public let name: String
     
@@ -19,7 +19,7 @@ public struct ArxivAuthor: Codable, Equatable {
 }
 
 /// Represents a link associated with an arXiv entry
-public struct ArxivLink: Codable, Equatable {
+public struct ArxivLink: Codable, Equatable, Sendable{
     /// The URL of the link
     public let href: String
     
@@ -47,7 +47,7 @@ public struct ArxivLink: Codable, Equatable {
 }
 
 /// Represents a category classification for an arXiv paper
-public struct ArxivCategory: Codable, Equatable {
+public struct ArxivCategory: Codable, Equatable, Sendable {
     /// The category term (e.g., "cs.AI", "math.NT")
     public let term: String
     
@@ -70,7 +70,7 @@ public struct ArxivCategory: Codable, Equatable {
 }
 
 /// Represents a complete arXiv paper entry
-public struct ArxivEntry: Codable, Equatable {
+public struct ArxivEntry: Codable, Equatable, Sendable {
     /// The arXiv ID (e.g., "2301.12345v1")
     public let id: String
     
