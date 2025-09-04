@@ -2,6 +2,8 @@
 
 # ArxivSwift
 
+[![CI](https://github.com/pedrocid/ArxivSwift/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pedrocid/ArxivSwift/actions/workflows/ci.yml)
+
 A modern Swift API client for arXiv.org with async/await support.
 
 ## Description
