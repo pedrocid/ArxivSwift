@@ -127,7 +127,9 @@ public enum ArxivError: Error, LocalizedError, Equatable {
     public static func == (lhs: ArxivError, rhs: ArxivError) -> Bool {
         switch (lhs, rhs) {
         case (.networkError(let lhsError), .networkError(let rhsError)):
-            return lhsError.localizedDescription == rhsError.localizedDescription
+            let lhs = lhsError as NSError
+            let rhs = rhsError as NSError
+            return lhs.domain == rhs.domain && lhs.code == rhs.code
         case (.invalidURL(let lhsURL), .invalidURL(let rhsURL)):
             return lhsURL == rhsURL
         case (.parsingError(let lhsMessage), .parsingError(let rhsMessage)):

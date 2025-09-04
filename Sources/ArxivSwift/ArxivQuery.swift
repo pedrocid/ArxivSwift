@@ -10,7 +10,7 @@ import Foundation
 /// let query = ArxivQuery()
 ///     .sort(by: .submittedDate, order: .descending)
 /// ```
-public enum SortBy: String, CaseIterable {
+public enum SortBy: String, CaseIterable, Sendable {
     /// Sort by relevance to the search query (default)
     case relevance = "relevance"
     /// Sort by the date the paper was last updated
@@ -28,7 +28,7 @@ public enum SortBy: String, CaseIterable {
 /// let query = ArxivQuery()
 ///     .sort(by: .submittedDate, order: .ascending) // Oldest first
 /// ```
-public enum SortOrder: String, CaseIterable {
+public enum SortOrder: String, CaseIterable, Sendable {
     /// Sort in ascending order (oldest first for dates, lowest relevance first)
     case ascending = "ascending"
     /// Sort in descending order (newest first for dates, highest relevance first)
@@ -46,7 +46,7 @@ public enum SortOrder: String, CaseIterable {
 ///     .addSearch(field: .title, value: "neural networks")
 ///     .addSearch(field: .category, value: "cs.AI")
 /// ```
-public enum QueryField: String, CaseIterable {
+public enum QueryField: String, CaseIterable, Sendable {
     /// Search in paper titles
     case title = "ti"
     /// Search in author names
@@ -101,7 +101,7 @@ public enum QueryField: String, CaseIterable {
 ///
 /// All methods return a new `ArxivQuery` instance, allowing for method chaining
 /// while maintaining immutability.
-public struct ArxivQuery {
+public struct ArxivQuery: Sendable {
     private var searchTerms: [String] = []
     private var start: Int = 0
     private var maxResults: Int = 10
@@ -163,7 +163,7 @@ public struct ArxivQuery {
     /// Build the URL query string for the arXiv API
     /// - Returns: The complete URL string for the API request
     internal func buildURLString() -> String {
-        let baseURL = "http://export.arxiv.org/api/query"
+        let baseURL = "https://export.arxiv.org/api/query"
         var components = URLComponents(string: baseURL)!
         
         var queryItems: [URLQueryItem] = []

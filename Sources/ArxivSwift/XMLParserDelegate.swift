@@ -89,66 +89,68 @@ internal class ArxivXMLParserDelegate: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        currentText += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        currentText += string
     }
-    
+
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         defer {
             currentElement = ""
             currentText = ""
         }
-        
+
         guard let currentEntry = currentEntry else {
             return
         }
-        
+
+        let text = currentText.trimmingCharacters(in: .whitespacesAndNewlines)
+
         switch elementName {
         case "entry":
             if let entry = currentEntry.build() {
                 entries.append(entry)
             }
             self.currentEntry = nil
-            
+
         case "id":
             // Extract arXiv ID from the full URL
-            let arxivId = extractArxivId(from: currentText)
+            let arxivId = extractArxivId(from: text)
             currentEntry.setId(arxivId)
-            
+
         case "title":
-            currentEntry.setTitle(currentText)
-            
+            currentEntry.setTitle(text)
+
         case "summary":
-            currentEntry.setAbstract(currentText)
-            
+            currentEntry.setAbstract(text)
+
         case "published":
-            if let date = parseDate(currentText) {
+            if let date = parseDate(text) {
                 currentEntry.setPublished(date)
             }
-            
+
         case "updated":
-            if let date = parseDate(currentText) {
+            if let date = parseDate(text) {
                 currentEntry.setUpdated(date)
             }
-            
+
         case "name":
             // This is an author name within an <author> element
             if currentElement == "name" {
-                let author = ArxivAuthor(name: currentText)
+                let author = ArxivAuthor(name: text)
                 currentEntry.addAuthor(author)
             }
-            
+
         case "arxiv:comment":
-            currentEntry.setComment(currentText)
-            
+            currentEntry.setComment(text)
+
         case "arxiv:journal_ref":
-            currentEntry.setJournalReference(currentText)
-            
+            currentEntry.setJournalReference(text)
+
         case "arxiv:doi":
-            currentEntry.setDoi(currentText)
-            
+            currentEntry.setDoi(text)
+
         case "arxiv:report_no":
-            currentEntry.setReportNumber(currentText)
-            
+            currentEntry.setReportNumber(text)
+
         case "arxiv:primary_category":
             // This is handled in didStartElement with attributes
             break
