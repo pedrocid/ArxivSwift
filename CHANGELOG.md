@@ -7,10 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-09-04
+
 ### Added
-- Enhanced documentation with DocC-style comments
-- CHANGELOG.md for tracking project changes
-- CONTRIBUTING.md for contributor guidelines
 - Linux support (tested on Ubuntu 22.04/24.04)
 - Linux CI workflow using `swift:6.1-jammy` container
 - README section detailing Linux usage/build instructions
@@ -49,5 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - watchOS 8.0+
 - Swift 5.9+
 
-[Unreleased]: https://github.com/pedrocid/ArxivSwift/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/pedrocid/ArxivSwift/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/pedrocid/ArxivSwift/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/pedrocid/ArxivSwift/releases/tag/v1.0.0
