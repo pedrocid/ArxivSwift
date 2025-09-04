@@ -23,9 +23,26 @@ ArxivSwift is a clean, simple-to-use Swift package that provides a modern interf
 
 ## Requirements
 
-- iOS 15.0+ / macOS 12.0+ / tvOS 15.0+ / watchOS 8.0+
-- Swift 5.9+
-- Xcode 15.0+
+- iOS 15.0+ / macOS 12.0+ / tvOS 15.0+ / watchOS 8.0+ / Linux (Ubuntu 22.04/24.04)
+- Swift 6.1+
+- Xcode 16.0+ (for Apple platforms)
+
+## Linux Support
+
+ArxivSwift fully supports Linux via Swift Package Manager.
+
+- Tested on Ubuntu 22.04 (Jammy) and 24.04 (Noble) with Swift 6.1+
+- CI builds and tests run using the `swift:6.1-jammy` container
+
+Build and test on Linux:
+
+```bash
+swift --version
+swift build -v
+swift test -v
+```
+
+Add to another SwiftPM project (server-side Swift or CLI tools) the same way as on Apple platforms via your `Package.swift` dependencies.
 
 ## Installation
 

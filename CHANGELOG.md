@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced documentation with DocC-style comments
 - CHANGELOG.md for tracking project changes
 - CONTRIBUTING.md for contributor guidelines
+- Linux support (tested on Ubuntu 22.04/24.04)
+- Linux CI workflow using `swift:6.1-jammy` container
+- README section detailing Linux usage/build instructions
+
+### Changed
+- Project now targets Swift 6.1+
+- Xcode requirement updated to 16.0+
 
 ## [1.0.0] - 2024-01-01
 
