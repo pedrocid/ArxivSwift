@@ -49,10 +49,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode 16.4 (Swift 6.1)
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '16.4'
+      # Use default Xcode on the runner (should be 16.x on macos-14)
 
       - name: Cache SwiftPM
         uses: actions/cache@v4
@@ -65,10 +62,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-spm-
 
-      - name: Swift version
+      - name: Toolchain info
         run: |
-          xcodebuild -version
-          swift --version
+          which xcodebuild || true
+          xcodebuild -version || true
+          sw_vers || true
+          which swift || true
+          swift --version || true
 
       - name: Build
         run: swift build -v
