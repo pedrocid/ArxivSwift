@@ -3,7 +3,7 @@ import Foundation
 import FoundationNetworking
 #endif
 /// The main client for interacting with the arXiv API
-public final class ArxivClient: @unchecked Sendable {
+public actor ArxivClient {
     
     // MARK: - Properties
     
